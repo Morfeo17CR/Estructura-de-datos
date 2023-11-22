@@ -1,0 +1,40 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+int precedencia(char x)
+{
+if(x=='#')
+    return 0;
+if(x=='+'||x=='-')
+    return 1;
+if(x=='*'||x=='/')
+    return 2;
+if(isalpha(x))
+    return 3;
+}
+
+int main()
+{
+    string infija;
+    string posfija;
+    stack<char>p;
+
+    cout << "introduce la cadena: ";
+    cin >> infija;
+    infija += "#";
+
+    for(unsigned int i = 0; i<infija.length();i++)
+    {
+        while(!p.empty()&& precedencia(p.top())>=precedencia(infija[i]))
+        {
+            posfija += p.top();
+            p.pop();
+        }
+        p.push(infija[i]);
+    }
+
+    cout << "Posfija: " <<posfija << endl;
+    return 0;
+}
