@@ -1,0 +1,100 @@
+#include <iostream>
+#include <list>
+#include <queue>
+
+using namespace std;
+
+class grafo
+{
+private:
+    list<int>*ady;
+    int num_vertices;
+public:
+    grafo(int);
+    ~grafo();
+    void aniadir_arista(int,int);
+    void imprimir();
+    void amplitud(int);
+};
+
+grafo::grafo(int n)
+{
+    num_vertices = n;
+    ady = new list<int>[n];
+}
+grafo::~grafo()
+{
+    delete[]ady;
+}
+void grafo::aniadir_arista(int u, int v)
+{
+    ady[u].push_back(v);
+    ady[v].push_back(u);
+}
+void grafo::imprimir()
+{
+    list<int>::iterator it;
+    for(int i = 0; i<num_vertices; i++)
+    {
+        for(it = ady[i].begin(); it!=ady[i].end(); it++)
+        {
+            cout << *it << " ";
+        }
+        cout << endl;
+    }
+}
+
+int main()
+{
+    grafo g(5);
+    g.aniadir_arista(0,1);
+    g.aniadir_arista(0,4);
+    g.aniadir_arista(1,2);
+    g.aniadir_arista(1,3);
+    g.aniadir_arista(1,4);
+    g.aniadir_arista(2,3);
+    g.aniadir_arista(3,4);
+
+    cout << "listas de adyacencia..." << endl;
+    g.imprimir();
+
+    cout << "Recorrido por amplitud..." << endl;
+    g.amplitud(0); cout << endl;
+    g.amplitud(1); cout << endl;
+    g.amplitud(2); cout << endl;
+    g.amplitud(3); cout << endl;
+    g.amplitud(4); cout << endl;
+
+
+    return 0;
+}
+
+void grafo::amplitud(int v)
+{
+    bool visitados[num_vertices];
+    for(int i = 0; i < num_vertices; i++)
+    {
+        visitados[i] = false;
+    }
+    queue<int>c;
+
+    c.push(v);
+    visitados[v] = true;
+    while(!c.empty())
+    {
+        int aux = c.front();
+        c.pop();
+        cout << aux << " ";
+
+        list<int>::iterator it;
+        for(it = ady[aux].begin(); it!=ady[aux].end(); it++)
+        {
+            if(visitados[*it] == false)
+            {
+                visitados[*it]=true;
+                c.push(*it);
+            }
+        }
+
+    }
+}
