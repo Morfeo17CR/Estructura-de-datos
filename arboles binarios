@@ -1,0 +1,70 @@
+#include <iostream>
+
+using namespace std;
+
+class nodo
+{
+public:
+    int dato;
+    nodo*izq;
+    nodo*der;
+    nodo(int);
+};
+
+nodo::nodo(int d)
+{
+    dato = d;
+    izq = NULL;
+    der = NULL;
+}
+
+void preorden(nodo*r);
+void inorden(nodo*r);
+void postorden(nodo*r);
+int main()
+{
+    system("color e9");
+nodo*raiz = new nodo(1);
+raiz->izq = new nodo(2);
+raiz->der = new nodo(3);
+raiz->izq->izq = new nodo(4);
+raiz->izq->der = new nodo(5);
+cout<<"Recorrido Preorden: ";
+preorden(raiz);
+cout << endl;
+cout<<"Recorrido Inorden: ";
+inorden(raiz);
+cout << endl;
+cout<<"Recorrido Postorden: ";
+postorden(raiz);
+cout << endl;
+    return 0;
+    return 0;
+}
+
+void preorden(nodo*r)
+{
+    if(r==NULL)
+        return;
+    cout<< r->dato << " ";
+    preorden(r->izq);
+    preorden(r->der);
+}
+
+void inorden(nodo*r)
+{
+    if(r==NULL)
+        return;
+    inorden(r->izq);
+    cout<< r->dato << " ";
+    inorden(r->der);
+}
+
+void postorden(nodo*r)
+{
+    if(r==NULL)
+        return;
+    postorden(r->izq);
+    postorden(r->der);
+    cout<< r->dato << " ";
+}
