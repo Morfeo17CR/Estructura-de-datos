@@ -1,0 +1,45 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+void lectura();
+void escritura();
+
+int main()
+{
+    escritura();
+    lectura();
+    return 0;
+}
+
+void escritura()
+{
+    ofstream a;
+    a.open("prueba.txt",ios::out);
+    if(a.fail())
+    {
+        cout << "no se puede abrir el archivo... :(";
+        exit(1);
+    }
+    a<<"hola";
+    a.close();
+}
+
+
+void lectura()
+{
+    ifstream a;
+    a.open("prueba.txt",ios::in);
+    if(a.fail())
+    {
+     cout << "no se encontro el archivo  :c ...";
+     exit(1);
+    }
+    string texto;
+    while(!a.eof())
+    {
+        getline(a,texto);
+        cout << texto;
+    }
+}
