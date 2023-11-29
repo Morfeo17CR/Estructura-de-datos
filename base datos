@@ -1,0 +1,73 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class persona
+{
+private:
+    char Nombre[20];
+    int edad;
+public:
+    void leer_datos();
+    void imprimir_datos();
+};
+
+void persona::leer_datos()
+{
+    cout << "Nombre: ";
+    cin >> Nombre;
+    cout<< endl << "Edad: ";
+    cin >> edad;
+    cout << endl;
+}
+
+void persona::imprimir_datos()
+{
+    cout << "Nombre: " << Nombre << endl;
+    cout << "Edad: " << edad<< endl;
+}
+
+void agregar_registros()
+{
+    ofstream file;
+    file.open("Datos.dat", ios::binary|ios::app);
+    if(file.fail())
+    {
+        cout << "Error de apertura";
+        return;
+    }
+    persona x;
+    x.leer_datos();
+    file.write((char*)&x,sizeof(persona));
+
+    file.close();
+}
+
+void leer_registros()
+{
+    ifstream file;
+    file.open("Datos.dat",ios::binary|ios::in);
+    if(file.fail())
+    {
+        cout << "Error de apertura... :c"<<endl;
+        exit(1);
+    }
+    persona x;
+    file.read((char*)&x,sizeof(persona));
+    while(!file.eof())
+    {
+        x.imprimir_datos();
+        file.read((char*)&x, sizeof(persona));
+    }
+        file.close();
+}
+
+int main()
+{
+   agregar_registros();
+   leer_registros();
+
+
+    return 0;
+}
